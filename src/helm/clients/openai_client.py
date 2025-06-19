@@ -271,8 +271,6 @@ class OpenAIClient(CachingClient):
 
         def do_it() -> Dict[str, Any]:
             raw_request["seed"] = 0
-            hlog(f"raw req seed: {raw_request.get('seed')}")
-            hlog(f"raw req temp: {raw_request.get('temperature')}")
             return self.client.chat.completions.create(**raw_request).model_dump(mode="json")
 
         try:
@@ -406,8 +404,6 @@ class OpenAIClient(CachingClient):
 
         def do_it() -> Dict[str, Any]:
             raw_request["seed"] = 0
-            hlog(f"raw req seed: {raw_request.get('seed')}")
-            hlog(f"raw req temp: {raw_request.get('temperature')}")
             return self.client.completions.create(**raw_request).model_dump(mode="json")
 
         try:
