@@ -140,13 +140,13 @@ class AnthropicClient(CachingClient):
         }
 
         completions: List[GeneratedOutput] = []
-        hlog(f"raw req temp: {raw_request.get('temperature')}")
 
         # `num_completions` is not supported, so instead make `num_completions` separate requests.
         for completion_index in range(request.num_completions):
             try:
 
                 def do_it():
+                    hlog(f"raw req temp: {raw_request.get('temperature')}")
                     result = self._send_request(raw_request)
                     assert "completion" in result, f"Invalid response: {result}"
                     return result
@@ -393,6 +393,7 @@ class AnthropicMessagesClient(CachingClient):
         for completion_index in range(request.num_completions):
 
             def do_it() -> Dict[str, Any]:
+                hlog(f"raw req temp: {raw_request.get('temperature')}")
                 try:
                     if self.stream:
                         with self.client.messages.stream(**raw_request) as message_stream:
@@ -559,6 +560,7 @@ class AnthropicLegacyClient(CachingClient):
         }
 
         def do_it():
+            hlog(f"raw req temp: {raw_request.get('t')}")
             # Anthropic throws an error when `max_tokens` or `n` is 0, so only send the logprobs request
             if request.max_tokens == 0:
                 return {

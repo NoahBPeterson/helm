@@ -270,6 +270,9 @@ class OpenAIClient(CachingClient):
         raw_request = self._make_chat_raw_request(request)
 
         def do_it() -> Dict[str, Any]:
+            raw_request["seed"] = 0
+            hlog(f"raw req seed: {raw_request.get('seed')}")
+            hlog(f"raw req temp: {raw_request.get('temperature')}")
             return self.client.chat.completions.create(**raw_request).model_dump(mode="json")
 
         try:
@@ -390,9 +393,6 @@ class OpenAIClient(CachingClient):
             "frequency_penalty": request.frequency_penalty,
             "echo": request.echo_prompt,
         }
-        raw_request["seed"] = 0
-        hlog(f"raw req seed: {raw_request.get('seed')}")
-        hlog(f"raw req temp: {raw_request.get('temperature')}")
 
         # OpenAI doesn't let you ask for more completions than the number of
         # per-token candidates.
@@ -405,6 +405,9 @@ class OpenAIClient(CachingClient):
         raw_request = self._to_raw_completion_request(request)
 
         def do_it() -> Dict[str, Any]:
+            raw_request["seed"] = 0
+            hlog(f"raw req seed: {raw_request.get('seed')}")
+            hlog(f"raw req temp: {raw_request.get('temperature')}")
             return self.client.completions.create(**raw_request).model_dump(mode="json")
 
         try:
