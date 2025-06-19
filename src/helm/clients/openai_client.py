@@ -391,8 +391,8 @@ class OpenAIClient(CachingClient):
             "echo": request.echo_prompt,
         }
         raw_request["seed"] = 0
-        print(f"raw req seed: {raw_request.get('seed')}")
-        print(f"raw req temp: {raw_request.get('temperature')}")
+        hlog(f"raw req seed: {raw_request.get('seed')}")
+        hlog(f"raw req temp: {raw_request.get('temperature')}")
 
         # OpenAI doesn't let you ask for more completions than the number of
         # per-token candidates.

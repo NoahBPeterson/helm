@@ -140,6 +140,7 @@ class AnthropicClient(CachingClient):
         }
 
         completions: List[GeneratedOutput] = []
+        hlog(f"raw req temp: {raw_request.get('temperature')}")
 
         # `num_completions` is not supported, so instead make `num_completions` separate requests.
         for completion_index in range(request.num_completions):
