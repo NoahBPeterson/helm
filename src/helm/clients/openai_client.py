@@ -194,9 +194,7 @@ class OpenAIClient(CachingClient):
             "presence_penalty": request.presence_penalty,
             "frequency_penalty": request.frequency_penalty,
         }
-        # Add seed parameter if request.random is set
-        if request.random is not None:
-            raw_request["seed"] = int(request.random)
+        raw_request["seed"] = 0
 
         if request.response_format and request.response_format.json_schema:
             # Copy and modify JSON schema to conform to OpenAI's requirements
@@ -392,10 +390,7 @@ class OpenAIClient(CachingClient):
             "frequency_penalty": request.frequency_penalty,
             "echo": request.echo_prompt,
         }
-        # Add seed parameter if request.random is set
-        if request.random is not None:
-            raw_request["seed"] = int(request.random)
-
+        raw_request["seed"] = 0
         print(f"raw req seed: {raw_request.get('seed')}")
         print(f"raw req temp: {raw_request.get('temperature')}")
 
