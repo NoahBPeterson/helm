@@ -129,6 +129,7 @@ class AnthropicClient(CachingClient):
         if request.max_tokens == 0 and not request.echo_prompt:
             raise ValueError("echo_prompt must be True when max_tokens=0.")
 
+
         raw_request: AnthropicCompletionRequest = {
             "prompt": request.prompt,
             "stop_sequences": request.stop_sequences,
@@ -146,6 +147,7 @@ class AnthropicClient(CachingClient):
             try:
 
                 def do_it():
+                    hlog(f"stop seq 150: {raw_request['stop_sequences']}")
                     result = self._send_request(raw_request)
                     assert "completion" in result, f"Invalid response: {result}"
                     return result
@@ -392,6 +394,8 @@ class AnthropicMessagesClient(CachingClient):
         for completion_index in range(request.num_completions):
 
             def do_it() -> Dict[str, Any]:
+                hlog(f"stop seq 397: {raw_request['stop_sequences']}")
+
                 try:
                     if self.stream:
                         with self.client.messages.stream(**raw_request) as message_stream:
@@ -558,6 +562,7 @@ class AnthropicLegacyClient(CachingClient):
         }
 
         def do_it():
+            hlog(f"stop seq 565: {raw_request['stop']}")
             # Anthropic throws an error when `max_tokens` or `n` is 0, so only send the logprobs request
             if request.max_tokens == 0:
                 return {
