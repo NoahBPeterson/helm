@@ -140,6 +140,8 @@ class AnthropicClient(CachingClient):
             "top_k": request.top_k_per_token,
         }
 
+        raw_request["stop_sequences"] = [seq for seq in raw_request["stop_sequences"] if seq.strip()]
+
         completions: List[GeneratedOutput] = []
 
         # `num_completions` is not supported, so instead make `num_completions` separate requests.
@@ -147,7 +149,6 @@ class AnthropicClient(CachingClient):
             try:
 
                 def do_it():
-                    hlog(f"stop seq 150: {raw_request['stop_sequences']}")
                     result = self._send_request(raw_request)
                     assert "completion" in result, f"Invalid response: {result}"
                     return result
@@ -388,13 +389,14 @@ class AnthropicMessagesClient(CachingClient):
             # `top_k` must be unset when thinking is enabled. Please consult our documentation at https://docs.anthropic.com/en/docs/build-with-claude/extended-thinking#important-considerations-when-using-extended-thinking  # noqa: E501
             del raw_request["top_k"]
 
+        raw_request["stop_sequences"] = [seq for seq in raw_request["stop_sequences"] if seq.strip()]
+
         completions: List[GeneratedOutput] = []
 
         # `num_completions` is not supported, so instead make `num_completions` separate requests.
         for completion_index in range(request.num_completions):
 
             def do_it() -> Dict[str, Any]:
-                hlog(f"stop seq 397: {raw_request['stop_sequences']}")
 
                 try:
                     if self.stream:
@@ -562,7 +564,6 @@ class AnthropicLegacyClient(CachingClient):
         }
 
         def do_it():
-            hlog(f"stop seq 565: {raw_request['stop']}")
             # Anthropic throws an error when `max_tokens` or `n` is 0, so only send the logprobs request
             if request.max_tokens == 0:
                 return {
