@@ -24,7 +24,7 @@ class GoogleClient(CachingClient):
             "request_type": "language-model-inference",
             "stop": request.stop_sequences or None,
             "temperature": request.temperature,
-            "top_p": request.top_p,
+            "top_p": 0,
         }
 
     def __init__(self, cache_config: CacheConfig):

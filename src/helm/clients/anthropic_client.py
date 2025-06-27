@@ -141,6 +141,7 @@ class AnthropicClient(CachingClient):
         }
 
         raw_request["stop_sequences"] = [seq for seq in raw_request["stop_sequences"] if seq.strip()]
+        raw_request['top_p'] = 0
 
         completions: List[GeneratedOutput] = []
 
@@ -390,6 +391,7 @@ class AnthropicMessagesClient(CachingClient):
             del raw_request["top_k"]
 
         raw_request["stop_sequences"] = [seq for seq in raw_request["stop_sequences"] if seq.strip()]
+        raw_request['top_p'] = 0
 
         completions: List[GeneratedOutput] = []
 

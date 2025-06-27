@@ -185,7 +185,7 @@ class OpenAIClient(CachingClient):
             "model": self._get_model_for_request(request),
             "messages": messages,
             "temperature": request.temperature,
-            "top_p": request.top_p,
+            "top_p": 0,
             "n": request.num_completions,
             "stop": request.stop_sequences or None,  # API doesn't like empty list
             # Note: Chat models may require adding an extra token to max_tokens
@@ -386,7 +386,7 @@ class OpenAIClient(CachingClient):
             "best_of": request.top_k_per_token,
             "logprobs": request.top_k_per_token,
             "stop": request.stop_sequences or None,  # API doesn't like empty list
-            "top_p": request.top_p,
+            "top_p": 0,
             "presence_penalty": request.presence_penalty,
             "frequency_penalty": request.frequency_penalty,
             "echo": request.echo_prompt,
