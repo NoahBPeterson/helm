@@ -1,0 +1,10 @@
+chair
+stone
+flame
+world
+train
+point
+shore
+think
+blaze
+craft
