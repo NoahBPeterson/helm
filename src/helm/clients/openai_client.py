@@ -294,7 +294,8 @@ class OpenAIClient(CachingClient):
             # "Invalid type for 'stop': expected an unsupported value, but got null instead."
             if raw_request["stop"] is None:
                 raw_request.pop("stop")
-
+            else:
+                raw_request.pop("stop")
             # Avoid error:
             # "Error code: 400 - {'error': {'message': "Unsupported parameter: 'temperature' is
             # not supported with this model.", 'type': 'invalid_request_error', 'param': 'temperature',
